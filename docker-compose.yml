@@ -1,0 +1,34 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  mariadb:
+    image: mariadb:10.8.2
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: task
+      MARIADB_DATABASE: task
+    volumes:
+      # local directory : container directory
+      - "./mariadb_data:/var/lib/mysql"
+      # - "./mariadb_sign.sql:/docker-entrypoint-initdb.d/1.sql"
+    networks:
+      sign_net:
+        ipv4_address: 173.3.0.2
+
+  admindb:
+    image: adminer
+    restart: always
+    ports:
+      - 8060:8080
+    networks:
+      sign_net:
+        ipv4_address: 173.3.0.3
+
+networks:
+  sign_net:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 173.3.0.0/16
+         gateway: 173.3.0.1
