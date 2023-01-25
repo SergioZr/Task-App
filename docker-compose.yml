@@ -13,7 +13,7 @@ services:
       - "./mariadb_data:/var/lib/mysql"
       # - "./mariadb_sign.sql:/docker-entrypoint-initdb.d/1.sql"
     networks:
-      sign_net:
+      task_net:
         ipv4_address: 173.3.0.2
 
   admindb:
@@ -22,11 +22,20 @@ services:
     ports:
       - 8060:8080
     networks:
-      sign_net:
+      task_net:
         ipv4_address: 173.3.0.3
 
+#  taskApp:
+#    image: task_app
+#    restart: always
+#    ports:
+#      - 5000:5000
+#    networks:
+#      task_net:
+#        ipv4_address: 173.3.0.4
+
 networks:
-  sign_net:
+  task_net:
     driver: bridge
     ipam:
      config:
